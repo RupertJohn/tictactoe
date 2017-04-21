@@ -1,20 +1,27 @@
-class GamePlay
-  def initialize
+class Game
 
+  def initialize(board, player1, player2)
+    @board = board
+    @player1 = player1
+    @player2 = player2
   end
 
-  def turn
+  def play
   end
 
-  def gameover?
+  def gameover?(:board)
+    false
   end
 end
 
 class Player
-  @@player_icon = ["X", "O"]
-  
-  def initialize
+  attr_accessor :name, :icon
 
+  @@player_icon = ["O", "X"]
+
+  def initialize(name)
+    @name = name
+    @icon = @@player_icon.pop()
   end
 
 end
@@ -22,14 +29,17 @@ end
 class Board
   def initialize
     @board = [[" ", " ", " "],[" ", " ", " "],[" ", " ", " "]]
+    construct(@board)
   end
 
-  def update(string)
+  def update(x,y,player_icon)
+
   end
 
-  def construct
+  private
+  def construct(board_values)
     puts "_____"
-    @board.each do |subarray|
+    board_values.each do |subarray|
       puts subarray.join("|")
       puts "_____"
     end
