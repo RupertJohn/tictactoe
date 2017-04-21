@@ -9,39 +9,39 @@ class Game
   def play
   end
 
-  def gameover?(:board)
+  def gameover?(board)
     false
   end
 end
 
 class Player
-  attr_accessor :name, :icon
-
-  @@player_icon = ["O", "X"]
+  attr_accessor :name
 
   def initialize(name)
     @name = name
-    @icon = @@player_icon.pop()
   end
 
 end
 
 class Board
+
   def initialize
     @board = [[" ", " ", " "],[" ", " ", " "],[" ", " ", " "]]
     construct(@board)
+    @turn = 0
+    @icon = ["X","O"]
   end
 
-  def update(x,y,player_icon)
+  def update(x,y,icon)
 
   end
 
   private
   def construct(board_values)
-    puts "_____"
+    puts "-----"
     board_values.each do |subarray|
       puts subarray.join("|")
-      puts "_____"
+      puts "-----"
     end
   end
 
