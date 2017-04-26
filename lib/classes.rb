@@ -7,14 +7,15 @@ class Game
 
   def play
     while !Game.gameover?(@board) && @board.turn < 9
-      x, y = Game.user_input(@players[@board.turn % 2])
+      x, y = Game.user_input(current_player)
       if @board.free_space(x.to_i-1, y.to_i-1)
         @board.update(x.to_i-1,y.to_i-1)
       else
         puts "Spot not free"
-        x, y = Game.user_input(@players[@board.turn % 2])
+        x, y = Game.user_input(current_player)
       end
     end
+    winner(other_player)
   end
 
   private
@@ -48,6 +49,18 @@ class Game
     end
     #otherwise return false
     false
+  end
+
+  def winner(player)
+    puts "You win #{player.name}"
+  end
+
+  def current_player
+    @players[@board.turn % 2]
+  end
+
+  def other_player
+    @players[(@board.turn + 1) % 2]
   end
 end
 
