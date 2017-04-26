@@ -2,21 +2,25 @@ class Game
 
   def initialize(board, player1, player2)
     @board = board
-    @player1 = player1
-    @player2 = player2
+    @players = [player1,player2]
   end
 
   def play
-    while !Game.gameover?(@board)
-      x, y = Game.user_input
-      @board.update(x.to_i,y.to_i)
+    while !Game.gameover?(@board) && @board.turn < 9
+      x, y = Game.user_input(@players[@board.turn % 2])
+      if @board.free_space(x.to_i-1, y.to_i-1)
+        @board.update(x.to_i-1,y.to_i-1)
+      else
+        puts "Spot not free"
+        x, y = Game.user_input(@players[@board.turn % 2])
+      end
     end
   end
 
   private
 
-  def Game.user_input
-    puts "Where would you like to go?"
+  def Game.user_input(player)
+    puts "Where would you like to go #{player.name}?"
     puts "Use the form 'row,column' in range 1-3"
     coords = gets.chomp
     coords.match(/([0-9]),\s*([0-9])/).captures
@@ -57,7 +61,7 @@ class Player
 end
 
 class Board
-  attr_accessor :board
+  attr_accessor :board, :turn
 
   def initialize
     @board = [[" ", " ", " "],[" ", " ", " "],[" ", " ", " "]]
@@ -70,6 +74,14 @@ class Board
     @board[x][y] = @icon[@turn % 2]
     @turn += 1
     construct(@board)
+  end
+
+  def free_space(x,y)
+    if @board[x][y] == " "
+      return true
+    else
+      return false
+    end
   end
 
   private
